@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fluno™ — Care In Every Drop</title>
+  <meta name="description" content="Fluno — Modern personal care essentials. Hand Wash, Sunscreen, Lip Balm. Available on Blinkit, JioMart, Amazon and Sipaara."/>
+  <link rel="canonical" href="https://myfluno.com/"/>
+  <link rel="icon" href="images/fluno_logo.png" type="image/png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  :root{
+    --brand:#BD7EFA;
+    --brand-dk:#9A50E8;
+    --brand-ddk:#7B35CC;
+    --brand-lt:#D4A8FC;
+    --brand-dim:#EDD9FF;
+    --brand-soft:#F9F3FF;
+    --dark:#1A0E2E;
+    --body:#3D2B5C;
+    --muted:#9580B8;
+    --white:#FFFFFF;
+    --off:#FDFAFF;
+    --gold:#E8C97A;
+    --gold-dk:#C4A23A;
+    --r:14px;--r-lg:26px;
+    --sh:0 6px 28px rgba(189,126,250,.14);
+    --sh-md:0 14px 48px rgba(189,126,250,.22);
+    --sh-lg:0 24px 72px rgba(189,126,250,.28);
+    --nav-h:70px
+  }
+  body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--brand-soft)}::-webkit-scrollbar-thumb{background:var(--brand-lt);border-radius:99px}
+
+  /* ---- INTRO ---- */
+  #intro{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden;transition:opacity .9s cubic-bezier(.77,0,.18,1),transform .9s cubic-bezier(.77,0,.18,1)}
+  #intro.hide{opacity:0;transform:translateY(-100%);pointer-events:none}
+  .i-ring{position:absolute;border-radius:50%;border:1px solid rgba(189,126,250,.12);pointer-events:none;animation:ringX 4s ease-out infinite}
+  .i-ring:nth-child(1){width:300px;height:300px;animation-delay:0s}
+  .i-ring:nth-child(2){width:500px;height:500px;animation-delay:.7s}
+  .i-ring:nth-child(3){width:720px;height:720px;animation-delay:1.4s}
+  .i-ring:nth-child(4){width:940px;height:940px;animation-delay:2.1s}
+  .i-glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(189,126,250,.16) 0%,transparent 70%);animation:gP 3s ease-in-out infinite;pointer-events:none}
+  .i-progress{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--brand-dim),var(--brand),var(--brand-lt));width:0;animation:progF 4.4s linear forwards}
+  .intro-wrap{text-align:center;position:relative;z-index:2}
+  .logo{display:flex;justify-content:center;gap:clamp(3px,1vw,12px);font-family:'Quicksand',sans-serif}
+  .logo span{font-size:clamp(70px,13.5vw,175px);font-weight:700;color:#BD7EFA;opacity:0;transform:scale(.8) translateY(40px);display:inline-block}
+  @keyframes fadeZoom{0%{opacity:0;transform:scale(.8) translateY(40px)}50%{opacity:1;transform:scale(1.05) translateY(-6px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+  .i-tag{font-family:'Quicksand',sans-serif;font-weight:600;font-size:clamp(15px,2.8vw,26px);color:#BD7EFA;letter-spacing:clamp(3px,.9vw,8px);text-transform:uppercase;opacity:0;transform:translateY(20px);margin-top:14px;animation:tagI .8s 3s ease forwards}
+  .explore-btn{display:inline-block;margin-top:34px;padding:15px 48px;font-family:'Quicksand',sans-serif;font-size:16px;font-weight:700;color:#1A0E2E;background:linear-gradient(135deg,#f5e6d3,#d4af37);border-radius:50px;box-shadow:0 10px 36px rgba(212,175,55,.38);opacity:0;transform:translateY(20px);animation:btnI .8s 3.6s ease forwards;cursor:pointer;border:none;transition:transform .28s,box-shadow .28s;text-decoration:none}
+  .explore-btn:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(212,175,55,.52)}
+  @keyframes tagI{to{opacity:1;transform:translateY(0)}}
+  @keyframes btnI{to{opacity:1;transform:translateY(0)}}
+  @keyframes gP{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.15);opacity:.6}}
+  @keyframes ringX{0%{transform:scale(.5);opacity:.5}100%{transform:scale(1.8);opacity:0}}
+  @keyframes progF{to{width:100%}}
+
+  /* ---- MAIN SITE ---- */
+  #site{opacity:0;transform:translateY(28px);transition:opacity .8s ease .1s,transform .8s ease .1s}
+  #site.vis{opacity:1;transform:translateY(0)}
+
+  /* ---- NAV ---- */
+  .nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(255,255,255,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid rgba(189,126,250,.1);display:flex;align-items:center;padding:0 clamp(20px,5vw,64px);z-index:1000;transition:box-shadow .3s}
+  .nav.sc{box-shadow:0 4px 32px rgba(189,126,250,.14)}
+  .nav-logo img{height:36px;display:block}
+  .nav-logo-fb{font-family:'Quicksand',sans-serif;font-weight:700;font-size:26px;color:var(--brand);text-decoration:none;display:none}
+  .nav-links{display:flex;gap:36px;margin-left:auto;list-style:none}
+  .nav-links a{font-family:'Quicksand',sans-serif;font-weight:600;font-size:15px;color:var(--body);text-decoration:none;position:relative;padding-bottom:3px;transition:color .25s}
+  .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2.5px;border-radius:99px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .nav-links a:hover{color:var(--brand)}.nav-links a:hover::after{transform:scaleX(1)}
+  .nav-cta{margin-left:28px;padding:10px 24px;background:var(--brand);color:var(--white);font-family:'Quicksand',sans-serif;font-weight:700;font-size:14px;border-radius:99px;text-decoration:none;box-shadow:0 4px 18px rgba(189,126,250,.38);transition:all .25s}
+  .nav-cta:hover{background:var(--brand-dk);transform:translateY(-2px);box-shadow:0 8px 28px rgba(189,126,250,.45)}
+  .ham{display:none;margin-left:auto;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  .ham span{display:block;width:24px;height:2.5px;background:var(--brand);border-radius:99px;transition:all .35s}
+  .ham.op span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  .ham.op span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .ham.op span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+  .mobn{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);padding:18px 28px 28px;border-bottom:1px solid var(--brand-dim);z-index:999;gap:2px;transform:translateY(-10px);opacity:0;transition:all .32s cubic-bezier(.34,1.56,.64,1)}
+  .mobn.op{display:flex;transform:translateY(0);opacity:1}
+  .mobn a{font-family:'Quicksand',sans-serif;font-size:17px;font-weight:700;color:var(--body);text-decoration:none;padding:13px 0;border-bottom:1px solid var(--brand-dim);transition:color .2s,padding-left .25s}
+  .mobn a:last-child{border:none}.mobn a:hover{color:var(--brand);padding-left:8px}
+
+  /* ---- UTILS ---- */
+  .C{max-width:1160px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+  .ey{font-family:'Quicksand',sans-serif;display:inline-block;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--brand);background:var(--brand-dim);padding:6px 16px;border-radius:99px;margin-bottom:18px}
+  .st{font-family:'Quicksand',sans-serif;font-size:clamp(28px,4vw,50px);font-weight:700;color:var(--dark);line-height:1.18;margin-bottom:16px}
+  .ss{font-size:16px;color:var(--muted);line-height:1.8;max-width:560px}
+  .bp{display:inline-flex;align-items:center;gap:8px;padding:15px 34px;background:var(--brand);color:var(--white);font-family:'Quicksand',sans-serif;font-weight:700;font-size:15px;border-radius:99px;text-decoration:none;border:none;cursor:pointer;box-shadow:0 8px 28px rgba(189,126,250,.38);transition:all .28s}
+  .bp:hover{background:var(--brand-dk);transform:translateY(-3px);box-shadow:0 16px 44px rgba(189,126,250,.48)}
+  .bg{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:transparent;color:var(--brand);font-family:'Quicksand',sans-serif;font-weight:700;font-size:15px;border-radius:99px;text-decoration:none;border:2px solid var(--brand);cursor:pointer;transition:all .28s}
+  .bg:hover{background:var(--brand);color:var(--white);transform:translateY(-3px)}
+  .iph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(145deg,var(--brand-dim),#e4cafc);color:var(--brand);font-family:'Quicksand',sans-serif;font-weight:600;font-size:12px;text-align:center;padding:20px;border-radius:inherit}
+
+  /* ---- HERO ---- */
+  #home{min-height:100vh;padding-top:var(--nav-h);background:var(--off);position:relative;overflow:hidden;display:flex;align-items:center}
+  .hsh{position:absolute;pointer-events:none;border-radius:50%;filter:blur(70px)}
+  .hsh1{width:560px;height:560px;background:rgba(189,126,250,.15);top:-150px;right:-150px;animation:sD 12s ease-in-out infinite}
+  .hsh2{width:360px;height:360px;background:rgba(189,126,250,.1);bottom:-80px;left:-80px;animation:sD 14s 4s ease-in-out infinite}
+  .hsh3{width:200px;height:200px;background:rgba(232,201,122,.13);top:40%;left:30%;animation:sD 10s 2s ease-in-out infinite}
+  .hcr{position:absolute;pointer-events:none;border-radius:50%;border:1px solid rgba(189,126,250,.13)}
+  .hcr1{width:600px;height:600px;top:50%;right:-10%;transform:translateY(-50%)}
+  .hcr2{width:440px;height:440px;top:50%;right:5%;transform:translateY(-50%)}
+  .hcr3{width:280px;height:280px;top:50%;right:20%;transform:translateY(-50%)}
+  .h-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:80px 0 60px;width:100%}
+  .h-ey{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1.5px solid var(--brand-dim);border-radius:99px;padding:7px 18px 7px 10px;font-family:'Quicksand',sans-serif;font-size:13px;font-weight:700;color:var(--brand);margin-bottom:24px;animation:fU .7s .1s both;box-shadow:0 2px 12px rgba(189,126,250,.1)}
+  .hdot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:dP 1.8s ease-in-out infinite}
+  .ht{font-family:'Quicksand',sans-serif;font-size:clamp(38px,5.5vw,72px);font-weight:700;color:var(--dark);line-height:1.1;margin-bottom:22px;animation:fU .7s .25s both}
+  .ht .hl{color:var(--brand);position:relative;display:inline-block}
+  .ht .hl::after{content:'';position:absolute;bottom:4px;left:0;right:0;height:10px;border-radius:99px;background:rgba(189,126,250,.18);z-index:-1}
+  .hd{font-size:clamp(15px,1.7vw,18px);color:var(--muted);line-height:1.75;max-width:480px;margin-bottom:38px;animation:fU .7s .4s both}
+  .hbtns{display:flex;gap:16px;flex-wrap:wrap;animation:fU .7s .55s both}
+  .hbadges{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px;animation:fU .7s .7s both}
+  .hbd{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--brand-dim);border-radius:99px;padding:8px 14px;font-family:'Quicksand',sans-serif;font-size:12px;font-weight:600;color:var(--body);box-shadow:0 2px 10px rgba(189,126,250,.08)}
+  .hbd .bi{color:var(--brand)}
+  .hvis{display:flex;align-items:center;justify-content:center;position:relative;animation:fU .9s .3s both}
+  .hglow{position:absolute;width:clamp(300px,42vw,500px);height:clamp(300px,42vw,500px);border-radius:50%;background:radial-gradient(circle,rgba(189,126,250,.18) 0%,transparent 70%);animation:gR 4.5s ease-in-out infinite}
+  .hprod{position:relative;z-index:2;width:clamp(200px,28vw,340px);filter:drop-shadow(0 24px 60px rgba(189,126,250,.32));animation:iF 4s ease-in-out infinite}
+  .hprod img{width:100%;border-radius:26px;display:block}
+  .hprod .iph{width:100%;aspect-ratio:1;border-radius:26px;min-height:240px}
+  .ft{position:absolute;background:var(--white);border-radius:var(--r);padding:11px 16px;box-shadow:var(--sh-md);font-family:'Quicksand',sans-serif;font-size:11px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:10px;z-index:3}
+  .ft strong{display:block;font-size:13px;font-weight:700;color:var(--dark)}
+  .ft .fi{font-size:22px}
+  .fta{bottom:8%;left:-12%;animation:tB 3.2s ease-in-out infinite,fU .8s .8s both}
+  .ftb{top:4%;right:-8%;animation:tB 3.6s 1.5s ease-in-out infinite,fU .8s 1s both}
+
+  /* ---- MARQUEE ---- */
+  .mq{background:var(--brand);padding:15px 0;overflow:hidden}
+  .mq-t{display:flex;gap:52px;width:max-content;animation:mR 26s linear infinite}
+  .mq:hover .mq-t{animation-play-state:paused}
+  .mi{display:flex;align-items:center;gap:14px;font-family:'Quicksand',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,.92);white-space:nowrap}
+  .ms{color:var(--gold)}
+
+  /* ---- ABOUT ---- */
+  #about{padding:110px 0;background:var(--white)}
+  .ag{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+  .at p{font-size:16px;color:var(--body);line-height:1.85;margin-bottom:18px}
+  .at p:last-of-type{margin-bottom:0}.at strong{color:var(--brand);font-weight:600}
+  .ap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+  .pil{background:var(--brand-soft);border-radius:var(--r);padding:20px 18px;border:1.5px solid var(--brand-dim);transition:transform .26s,box-shadow .26s}
+  .pil:hover{transform:translateY(-4px);box-shadow:var(--sh)}
+  .pi-ic{font-size:24px;margin-bottom:8px}
+  .pi-t{font-family:'Quicksand',sans-serif;font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px}
+  .pi-d{font-size:12.5px;color:var(--muted);line-height:1.6}
+  .av{display:flex;align-items:center;justify-content:center}
+  .morph{width:clamp(260px,34vw,420px);height:clamp(260px,34vw,420px);background:linear-gradient(145deg,var(--brand-dim),rgba(189,126,250,.08));border-radius:60% 40% 50% 55%/55% 45% 55% 45%;animation:mS 9s ease-in-out infinite;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 64px rgba(189,126,250,.16)}
+  .morph img{width:64%;border-radius:18px;filter:drop-shadow(0 10px 28px rgba(189,126,250,.22))}
+  .morph .iph{width:64%;aspect-ratio:1;border-radius:18px;font-size:11px}
+
+  /* ---- PRODUCTS ---- */
+  #products{padding:110px 0;background:var(--brand-soft);position:relative;overflow:hidden}
+  #products::before{content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(189,126,250,.1),transparent 65%);border-radius:50%;pointer-events:none}
+  .pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px}
+  .pc{background:var(--white);border-radius:var(--r-lg);overflow:hidden;border:1.5px solid rgba(189,126,250,.1);box-shadow:var(--sh);transition:transform .32s cubic-bezier(.34,1.56,.64,1),box-shadow .32s;display:flex;flex-direction:column}
+  .pc:hover{transform:translateY(-10px);box-shadow:var(--sh-lg)}
+  .pci{background:var(--brand-soft);aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:30px;position:relative;overflow:hidden}
+  .pci::before{content:'';position:absolute;top:-100%;left:-60%;width:40%;height:300%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.5) 50%,transparent 60%);transition:left .6s ease;pointer-events:none}
+  .pc:hover .pci::before{left:130%}
+  .pci img{width:100%;max-height:180px;object-fit:contain;filter:drop-shadow(0 10px 24px rgba(189,126,250,.24));transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+  .pc:hover .pci img{transform:scale(1.1) translateY(-5px)}
+  .pci .iph{width:100%;aspect-ratio:1;border-radius:14px;font-size:11px}
+  .pbg{position:absolute;top:14px;left:14px;z-index:2;font-family:'Quicksand',sans-serif;font-size:11px;font-weight:700;padding:4px 13px;border-radius:99px;color:var(--white)}
+  .pbs{background:var(--gold-dk)}.pbn{background:#16a34a}.pbv{background:var(--brand-dk)}
+  .pb{padding:22px 22px 26px;flex:1;display:flex;flex-direction:column}
+  .pn{font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:2px}
+  .pz{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .pd{font-size:13.5px;color:var(--body);line-height:1.68;margin-bottom:14px;flex:1}
+  .pts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+  .pt{background:var(--brand-dim);color:var(--brand);font-family:'Quicksand',sans-serif;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px}
+  .pbtn{display:block;width:100%;padding:14px;background:var(--brand);color:var(--white);font-family:'Quicksand',sans-serif;font-weight:700;font-size:14px;border-radius:99px;border:none;text-align:center;text-decoration:none;cursor:pointer;box-shadow:0 4px 16px rgba(189,126,250,.3);transition:all .28s}
+  .pbtn:hover{background:var(--brand-dk);transform:translateY(-2px);box-shadow:0 10px 28px rgba(189,126,250,.42)}
+
+  /* ---- STATS ---- */
+  .sb{background:var(--dark);padding:56px 0}
+  .sr{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+  .sn{font-family:'Quicksand',sans-serif;font-size:clamp(32px,4.5vw,56px);font-weight:700;color:var(--brand);display:block;line-height:1.1}
+  .sl{font-size:14px;color:rgba(255,255,255,.6);margin-top:6px}
+
+  /* ---- WHY ---- */
+  #why{padding:110px 0;background:var(--white)}
+  .wi{text-align:center;max-width:600px;margin:0 auto 54px}
+  .wi .ss{margin:0 auto}
+  .wg{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .wc{background:var(--brand-soft);border-radius:var(--r-lg);padding:38px 28px;border:1.5px solid rgba(189,126,250,.12);box-shadow:var(--sh);transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden}
+  .wc::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--brand),var(--brand-lt));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .wc:hover{transform:translateY(-7px);box-shadow:var(--sh-md)}.wc:hover::after{transform:scaleX(1)}
+  .wic{width:54px;height:54px;background:var(--brand-dim);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px}
+  .wt{font-family:'Quicksand',sans-serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:10px}
+  .wd{font-size:14px;color:var(--muted);line-height:1.72}
+
+  /* ---- BUY ON ---- */
+  #buyon{padding:110px 0;background:var(--off)}
+  .bi2{text-align:center;max-width:580px;margin:0 auto 54px}
+  .bi2 .ss{margin:0 auto}
+  .plts{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .plt{background:var(--white);border-radius:var(--r-lg);border:2px solid var(--brand-dim);padding:36px 22px 28px;text-align:center;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:13px;position:relative;overflow:hidden;transition:all .32s cubic-bezier(.34,1.56,.64,1)}
+  .plt::before{content:'';position:absolute;inset:0;background:var(--brand-soft);transform:scaleY(0);transform-origin:bottom;transition:transform .36s ease;z-index:0}
+  .plt:hover{border-color:var(--brand);transform:translateY(-8px);box-shadow:var(--sh-lg)}.plt:hover::before{transform:scaleY(1)}
+  .plic{position:relative;z-index:1;width:76px;height:76px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:36px;transition:transform .3s}
+  .plt:hover .plic{transform:scale(1.1)}
+  .bk{background:#fef08a}.ak{background:#ffedd5}.jk{background:#dcfce7}.sk{background:var(--brand-dim)}
+  .pln{position:relative;z-index:1;font-family:'Quicksand',sans-serif;font-size:17px;font-weight:700;color:var(--dark)}
+  .pls{position:relative;z-index:1;font-size:13px;color:var(--muted);line-height:1.5}
+  .pll{position:relative;z-index:1;display:inline-flex;align-items:center;gap:5px;font-family:'Quicksand',sans-serif;font-size:13px;font-weight:700;color:var(--brand);margin-top:4px}
+  .pll svg{transition:transform .25s}.plt:hover .pll svg{transform:translateX(4px)}
+
+  /* ---- FOOTER ---- */
+  footer{background:var(--dark);padding:64px 0 32px}
+  .fr{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:52px;margin-bottom:52px}
+  .fb img{height:34px;filter:brightness(0) invert(1);margin-bottom:16px;display:block}
+  .fb-nm{font-family:'Quicksand',sans-serif;font-size:26px;font-weight:700;color:var(--brand);display:none;margin-bottom:16px}
+  .fb p{font-size:14px;color:rgba(255,255,255,.48);line-height:1.75;max-width:280px}
+  .fct{font-family:'Quicksand',sans-serif;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px}
+  .fc ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .fc ul li a{font-size:14px;color:rgba(255,255,255,.58);text-decoration:none;transition:color .2s}
+  .fc ul li a:hover{color:var(--brand)}
+  .fbot{border-top:1px solid rgba(255,255,255,.07);padding-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .fbot p{font-size:13px;color:rgba(255,255,255,.35)}.fbot a{color:var(--brand-lt);text-decoration:none}
+  .ftg{font-family:'Quicksand',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22)}
+
+  /* ---- SCROLL REVEAL ---- */
+  .rv{opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease}
+  .rv.vis{opacity:1;transform:translateY(0)}
+  .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+  /* ---- KEYFRAMES ---- */
+  @keyframes fU{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes sD{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-20px) scale(1.07)}}
+  @keyframes gR{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:.6}}
+  @keyframes iF{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+  @keyframes tB{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  @keyframes mS{0%,100%{border-radius:60% 40% 50% 55%/55% 45% 55% 45%}50%{border-radius:40% 60% 55% 45%/45% 60% 40% 60%}}
+  @keyframes mR{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes dP{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:.5}}
+
+  /* ---- RESPONSIVE ---- */
+  @media(max-width:960px){
+    .h-inner{grid-template-columns:1fr;text-align:center;padding:60px 0 48px}
+    .hd{margin:0 auto 36px}.hbtns,.hbadges{justify-content:center}
+    .hvis{display:none}.ag{grid-template-columns:1fr;gap:44px}.av{order:-1}
+    .wg{grid-template-columns:1fr 1fr}.sr{grid-template-columns:repeat(2,1fr)}
+    .plts{grid-template-columns:repeat(2,1fr)}.fr{grid-template-columns:1fr 1fr}
+    .fb{grid-column:1/-1}.nav-links,.nav-cta{display:none}.ham{display:flex}
+  }
+  @media(max-width:560px){
+    .wg{grid-template-columns:1fr}.fr{grid-template-columns:1fr}
+    .fbot{flex-direction:column;text-align:center}.ap{grid-template-columns:1fr 1fr}
+    .plts{grid-template-columns:1fr 1fr}.sr{grid-template-columns:repeat(2,1fr)}
+    .hbadges{gap:8px}.hbd{font-size:11px;padding:6px 10px}
+  }
+  </style>
+</head>
+<body>
+
+<!-- INTRO SPLASH -->
+<div id="intro">
+  <div class="i-ring"></div><div class="i-ring"></div>
+  <div class="i-ring"></div><div class="i-ring"></div>
+  <div class="i-glow"></div>
+  <div class="i-progress"></div>
+  <div class="intro-wrap">
+    <div class="logo" id="logo">
+      <span>f</span><span>l</span><span>u</span><span>n</span><span>o</span>
+    </div>
+    <div class="i-tag">Care In Every Drop</div>
+    <button class="explore-btn" id="exploreBtn" onclick="revealSite()">Explore More</button>
+  </div>
+</div>
+
+<!-- MAIN SITE -->
+<div id="site">
+
+  <!-- NAV -->
+  <nav class="nav" id="nb">
+    <a href="#home" class="nav-logo">
+      <img src="images/fluno_logo.png" alt="Fluno" onerror="this.style.display='none';document.querySelector('.nav-logo-fb').style.display='block'"/>
+      <span class="nav-logo-fb">fluno</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#buyon">Buy Now</a></li>
+    </ul>
+    <a href="#buyon" class="nav-cta">Shop Now</a>
+    <button class="ham" id="ham" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <nav class="mobn" id="mobn">
+    <a href="#home">Home</a><a href="#about">About</a>
+    <a href="#products">Products</a><a href="#buyon">Buy Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hsh hsh1"></div><div class="hsh hsh2"></div><div class="hsh hsh3"></div>
+    <div class="hcr hcr1"></div><div class="hcr hcr2"></div><div class="hcr hcr3"></div>
+    <div class="C">
+      <div class="h-inner">
+        <div>
+          <div class="h-ey"><span class="hdot"></span>Now Live on 4 Platforms</div>
+          <h1 class="ht">Care In<br/><span class="hl">Every Drop</span></h1>
+          <p class="hd">Modern personal care essentials designed for your everyday wellness. Thoughtfully formulated, expertly tested, and gentle on your skin.</p>
+          <div class="hbtns">
+            <a href="#products" class="bp">Shop Products <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#about" class="bg">Our Story</a>
+          </div>
+          <div class="hbadges">
+            <span class="hbd"><span class="bi">&#10003;</span>pH Balanced</span>
+            <span class="hbd"><span class="bi">&#10003;</span>Dermatologist Tested</span>
+            <span class="hbd"><span class="bi">&#10003;</span>Cruelty Free</span>
+            <span class="hbd"><span class="bi">&#10003;</span>No Parabens</span>
+          </div>
+        </div>
+        <div class="hvis" aria-hidden="true">
+          <div class="hglow"></div>
+          <div class="hprod">
+            <!-- REPLACE with: <img src="images/handwash-250.png" alt="Fluno Hand Wash 250ml"/> -->
+            <!-- GitHub raw: <img src="https://raw.githubusercontent.com/YOUR_USER/REPO/main/images/handwash-250.png" alt="..."/> -->
+            <div class="iph">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="8" y="14" width="32" height="28" rx="7" stroke="#BD7EFA" stroke-width="2"/><path d="M16 14v-5a8 8 0 0116 0v5" stroke="#BD7EFA" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="27" r="4" fill="#BD7EFA" opacity=".3"/><path d="M24 31v5" stroke="#BD7EFA" stroke-width="2" stroke-linecap="round"/></svg>
+              Hero product image<br/><span style="opacity:.4;font-size:10px;">images/handwash-250.png</span>
+            </div>
+          </div>
+          <div class="ft fta"><span class="fi">&#128167;</span><div><strong>pH Balanced</strong>Skin-friendly formula</div></div>
+          <div class="ft ftb"><span class="fi">&#10024;</span><div><strong>Dermatologist Tested</strong>Safe for all skin types</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="mq" aria-hidden="true">
+    <div class="mq-t">
+      <span class="mi"><span class="ms">&#10022;</span>Care In Every Drop</span>
+      <span class="mi"><span class="ms">&#10022;</span>pH Balanced Formula</span>
+      <span class="mi"><span class="ms">&#10022;</span>Dermatologist Tested</span>
+      <span class="mi"><span class="ms">&#10022;</span>No Parabens</span>
+      <span class="mi"><span class="ms">&#10022;</span>Cruelty Free</span>
+      <span class="mi"><span class="ms">&#10022;</span>Gentle On Skin</span>
+      <span class="mi"><span class="ms">&#10022;</span>Fluno&#8482;</span>
+      <span class="mi"><span class="ms">&#10022;</span>Care In Every Drop</span>
+      <span class="mi"><span class="ms">&#10022;</span>pH Balanced Formula</span>
+      <span class="mi"><span class="ms">&#10022;</span>Dermatologist Tested</span>
+      <span class="mi"><span class="ms">&#10022;</span>No Parabens</span>
+      <span class="mi"><span class="ms">&#10022;</span>Cruelty Free</span>
+      <span class="mi"><span class="ms">&#10022;</span>Gentle On Skin</span>
+      <span class="mi"><span class="ms">&#10022;</span>Fluno&#8482;</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about" style="padding:110px 0;background:var(--white)">
+    <div class="C">
+      <div class="ag">
+        <div>
+          <span class="ey rv">About Fluno</span>
+          <h2 class="st rv d1">A brand built<br/>around you.</h2>
+          <div class="at rv d2">
+            <p>At <strong>Fluno</strong>, we set out with a single goal &mdash; to make personal care that genuinely works. Products that feel good to use, are gentle on your skin, and deliver real results every day.</p>
+            <p>Every formula is carefully developed and tested to meet the highest standards of quality and safety. No shortcuts, no compromises &mdash; just well-crafted personal care you can trust.</p>
+            <p><strong>From your first wash to your last routine of the day &mdash; Fluno is with you in every drop.</strong></p>
+          </div>
+          <div class="ap rv d3">
+            <div class="pil"><div class="pi-ic">&#128300;</div><div class="pi-t">Science-Backed</div><div class="pi-d">Formulated with precision and tested rigorously.</div></div>
+            <div class="pil"><div class="pi-ic">&#128737;&#65039;</div><div class="pi-t">Dermatologist Tested</div><div class="pi-d">Safe for all skin types including sensitive skin.</div></div>
+            <div class="pil"><div class="pi-ic">&#128683;</div><div class="pi-t">No Harmful Additives</div><div class="pi-d">Free from parabens, sulphates and harsh chemicals.</div></div>
+            <div class="pil"><div class="pi-ic">&#128048;</div><div class="pi-t">Cruelty Free</div><div class="pi-d">100% cruelty-free &mdash; always, without exception.</div></div>
+          </div>
+        </div>
+        <div class="av rv d2">
+          <div class="morph">
+            <!-- REPLACE with: <img src="images/about.jpg" alt="Fluno brand"/> -->
+            <div class="iph" style="font-size:11px;">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="17" stroke="#BD7EFA" stroke-width="2" opacity=".4"/><path d="M12 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#BD7EFA" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="20" r="3" fill="#BD7EFA" opacity=".5"/></svg>
+              Brand image<br/><span style="opacity:.4;">images/about.jpg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="C">
+      <div style="margin-bottom:56px">
+        <span class="ey rv">Our Products</span>
+        <h2 class="st rv d1">Made for your<br/>daily routine.</h2>
+        <p class="ss rv d2">Every product in the Fluno range is crafted to perform &mdash; gentle enough for daily use, effective enough to make a real difference.</p>
+      </div>
+      <div class="pg">
+
+        <!-- PRODUCT 1 -->
+        <!-- IMAGE: <img src="images/handwash-250.png" alt="Fluno Hand Wash 250ml"/> -->
+        <!-- GitHub: src="https://raw.githubusercontent.com/YOUR_USER/REPO/main/images/handwash-250.png" -->
+        <div class="pc rv">
+          <div class="pci">
+            <span class="pbg pbs">Bestseller</span>
+            <div class="iph"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="8" y="12" width="24" height="24" rx="6" stroke="#BD7EFA" stroke-width="2"/><path d="M16 12V9a4 4 0 018 0v3" stroke="#BD7EFA" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="23" r="3" fill="#BD7EFA" opacity=".35"/><path d="M20 26v4" stroke="#BD7EFA" stroke-width="2" stroke-linecap="round"/></svg>handwash-250.png</div>
+          </div>
+          <div class="pb">
+            <div class="pn">Hand Wash</div>
+            <div class="pz">250 ml &middot; Pump Bottle</div>
+            <p class="pd">Effective cleansing formula that removes impurities while keeping hands soft and comfortable. pH balanced for everyday use.</p>
+            <div class="pts"><span class="pt">pH Balanced</span><span class="pt">Moisturising</span><span class="pt">Foaming</span></div>
+            <a href="#buyon" class="pbtn">Buy Now</a>
+          </div>
+        </div>
+
+        <!-- PRODUCT 2 -->
+        <!-- IMAGE: <img src="images/handwash-800-pouch.png" alt="Fluno Hand Wash 800ml Pouch"/> -->
+        <div class="pc rv d1">
+          <div class="pci">
+            <span class="pbg pbv">Value Pack</span>
+            <div class="iph"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M10 12h20l-2.5 22h-15L10 12z" stroke="#BD7EFA" stroke-width="2" stroke-linejoin="round"/><path d="M8 12c0-2.2 5.4-4 12-4s12 1.8 12 4" stroke="#BD7EFA" stroke-width="2"/><circle cx="20" cy="23" r="2.5" fill="#BD7EFA" opacity=".35"/></svg>handwash-800-pouch.png</div>
+          </div>
+          <div class="pb">
+            <div class="pn">Hand Wash</div>
+            <div class="pz">800 ml &middot; Refill Pouch</div>
+            <p class="pd">Eco-conscious refill pouch with the same trusted formula. Bigger quantity, better value &mdash; and less plastic waste.</p>
+            <div class="pts"><span class="pt">Eco-Friendly</span><span class="pt">Refill Pack</span><span class="pt">Value</span></div>
+            <a href="#buyon" class="pbtn">Buy Now</a>
+          </div>
+        </div>
+
+        <!-- PRODUCT 3 -->
+        <!-- IMAGE: <img src="images/sunscreen.png" alt="Fluno Sunscreen"/> -->
+        <div class="pc rv d2">
+          <div class="pci">
+            <span class="pbg pbn">New</span>
+            <div class="iph"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="7" stroke="#BD7EFA" stroke-width="2"/><path d="M20 5v4M20 31v4M5 20h4M31 20h4M9.4 9.4l2.8 2.8M27.8 27.8l2.8 2.8M9.4 30.6l2.8-2.8M27.8 12.2l2.8-2.8" stroke="#BD7EFA" stroke-width="2" stroke-linecap="round"/></svg>sunscreen.png</div>
+          </div>
+          <div class="pb">
+            <div class="pn">Sunscreen</div>
+            <div class="pz">SPF 50 &middot; PA+++ &middot; Lightweight</div>
+            <p class="pd">Broad spectrum SPF 50 protection with a lightweight, non-greasy finish. No white cast &mdash; blends effortlessly into all skin tones.</p>
+            <div class="pts"><span class="pt">SPF 50</span><span class="pt">PA+++</span><span class="pt">No White Cast</span></div>
+            <a href="#buyon" class="pbtn">Buy Now</a>
+          </div>
+        </div>
+
+        <!-- PRODUCT 4 -->
+        <!-- IMAGE: <img src="images/lipbalm.png" alt="Fluno Lip Balm"/> -->
+        <div class="pc rv d3">
+          <div class="pci">
+            <span class="pbg pbn">New</span>
+            <div class="iph"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="13" y="8" width="14" height="26" rx="7" stroke="#BD7EFA" stroke-width="2"/><path d="M13 20h14" stroke="#BD7EFA" stroke-width="1.5" opacity=".4"/><path d="M16 8c0-2 1.3-3.5 4-3.5S24 6 24 8" stroke="#BD7EFA" stroke-width="2"/></svg>lipbalm.png</div>
+          </div>
+          <div class="pb">
+            <div class="pn">Lip Balm</div>
+            <div class="pz">4.5 g &middot; Nourishing Formula</div>
+            <p class="pd">Intensive lip care that hydrates, soothes and protects. Ideal for dry, chapped lips &mdash; long-lasting comfort throughout the day.</p>
+            <div class="pts"><span class="pt">Hydrating</span><span class="pt">Long-lasting</span><span class="pt">SPF</span></div>
+            <a href="#buyon" class="pbtn">Buy Now</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="sb">
+    <div class="C">
+      <div class="sr">
+        <div class="rv"><span class="sn">4+</span><div class="sl">Products</div></div>
+        <div class="rv d1"><span class="sn">4</span><div class="sl">Platforms</div></div>
+        <div class="rv d2"><span class="sn">100%</span><div class="sl">Cruelty Free</div></div>
+        <div class="rv d3"><span class="sn">0</span><div class="sl">Parabens</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY FLUNO -->
+  <section id="why">
+    <div class="C">
+      <div class="wi">
+        <span class="ey rv">Why Fluno</span>
+        <h2 class="st rv d1">The Fluno difference.</h2>
+        <p class="ss rv d2">We care about what goes on your skin &mdash; so every decision, from formula to packaging, is made with you in mind.</p>
+      </div>
+      <div class="wg">
+        <div class="wc rv"><div class="wic">&#128300;</div><div class="wt">Clinically Formulated</div><p class="wd">Developed with precision &mdash; every formula is carefully tested for performance and skin safety before it reaches you.</p></div>
+        <div class="wc rv d1"><div class="wic">&#128737;&#65039;</div><div class="wt">Dermatologist Tested</div><p class="wd">Rigorously tested and proven suitable for all skin types, including sensitive and reactive skin.</p></div>
+        <div class="wc rv d2"><div class="wic">&#128167;</div><div class="wt">pH Balanced</div><p class="wd">Formulated to match your skin's natural pH, supporting your skin barrier with every use.</p></div>
+        <div class="wc rv d1"><div class="wic">&#9851;&#65039;</div><div class="wt">Eco-Conscious</div><p class="wd">Our 800ml refill pouch reduces plastic waste &mdash; because looking after your skin shouldn't cost the planet.</p></div>
+        <div class="wc rv d2"><div class="wic">&#10003;</div><div class="wt">Clean Formula</div><p class="wd">Free from parabens, SLS, phthalates and artificial colours. Thoughtful ingredients, honest labelling.</p></div>
+        <div class="wc rv d3"><div class="wic">&#127470;&#127475;</div><div class="wt">Proudly Indian</div><p class="wd">A home-grown brand built with love &mdash; for everyday Indians who deserve quality personal care at every price point.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUY ON -->
+  <section id="buyon">
+    <div class="C">
+      <div class="bi2">
+        <span class="ey rv">Available On</span>
+        <h2 class="st rv d1">Get Fluno<br/>delivered to you.</h2>
+        <p class="ss rv d2">Order from your favourite platform &mdash; fast delivery, trusted service, guaranteed quality.</p>
+      </div>
+      <div class="plts">
+        <!-- REPLACE each href="#" with your actual store URL -->
+        <a href="#" class="plt rv" target="_blank" rel="noopener">
+          <div class="plic bk">&#9889;</div>
+          <div class="pln">Blinkit</div>
+          <p class="pls">10-minute delivery, anytime.</p>
+          <span class="pll">Shop Now <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#BD7EFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a href="#" class="plt rv d1" target="_blank" rel="noopener">
+          <div class="plic ak">&#128722;</div>
+          <div class="pln">Amazon</div>
+          <p class="pls">Fast Prime delivery, easy returns.</p>
+          <span class="pll">Shop Now <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#BD7EFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a href="#" class="plt rv d2" target="_blank" rel="noopener">
+          <div class="plic jk">&#128717;</div>
+          <div class="pln">JioMart</div>
+          <p class="pls">Trusted delivery across India.</p>
+          <span class="pll">Shop Now <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#BD7EFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a href="#" class="plt rv d3" target="_blank" rel="noopener">
+          <div class="plic sk">&#127978;</div>
+          <div class="pln">Sipaara</div>
+          <p class="pls">Discover Fluno on Sipaara.</p>
+          <span class="pll">Shop Now <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#BD7EFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="C">
+      <div class="fr">
+        <div class="fb">
+          <img src="images/fluno_logo.png" alt="Fluno" onerror="this.style.display='none';document.querySelector('.fb-nm').style.display='block'"/>
+          <span class="fb-nm">fluno</span>
+          <p>Gentle, effective personal care for your daily wellness. Care In Every Drop.</p>
+        </div>
+        <div class="fc">
+          <div class="fct">Navigate</div>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#buyon">Buy Now</a></li>
+          </ul>
+        </div>
+        <div class="fc">
+          <div class="fct">Products</div>
+          <ul>
+            <li><a href="#products">Hand Wash 250ml</a></li>
+            <li><a href="#products">Hand Wash 800ml Pouch</a></li>
+            <li><a href="#products">Sunscreen SPF 50</a></li>
+            <li><a href="#products">Lip Balm</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fbot">
+        <p>&copy; 2025 <a href="#home">Fluno&#8482;</a>. All rights reserved. Made with &#10084;&#65039; in India.</p>
+        <span class="ftg">Care In Every Drop</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- end #site -->
+
+<script>
+// ---- INTRO letter animation (your original code) ----
+const letters = document.querySelectorAll('.logo span');
+letters.forEach((l, i) => {
+  l.style.animation = 'fadeZoom 0.9s ' + (0.3 + i * 0.18) + 's cubic-bezier(.34,1.56,.64,1) forwards';
+});
+document.body.style.overflow = 'hidden';
+let autoT = setTimeout(revealSite, 4500);
+
+function revealSite() {
+  clearTimeout(autoT);
+  document.getElementById('intro').classList.add('hide');
+  document.getElementById('site').classList.add('vis');
+  document.body.style.overflow = '';
+}
+
+// ---- Navbar scroll ----
+const nb = document.getElementById('nb');
+window.addEventListener('scroll', () => nb.classList.toggle('sc', scrollY > 20), {passive:true});
+
+// ---- Mobile menu ----
+const ham = document.getElementById('ham'), mobn = document.getElementById('mobn');
+ham.addEventListener('click', () => {
+  const o = ham.classList.toggle('op');
+  ham.setAttribute('aria-expanded', o);
+  mobn.classList.toggle('op', o);
+});
+mobn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  ham.classList.remove('op'); mobn.classList.remove('op'); ham.setAttribute('aria-expanded', false);
+}));
+document.addEventListener('click', e => {
+  if (!nb.contains(e.target) && !mobn.contains(e.target)) {
+    ham.classList.remove('op'); mobn.classList.remove('op');
+  }
+});
+
+// ---- Scroll reveal ----
+new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('vis'); }
+}), {threshold:0.1, rootMargin:'0px 0px -40px 0px'})
+.observe.call(
+  new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }), {threshold:0.1, rootMargin:'0px 0px -40px 0px'}),
+  document.body
+);
+
+// Simple scroll reveal
+const ro = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); ro.unobserve(e.target); } });
+}, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+
+// ---- Active nav links ----
+document.querySelectorAll('section[id]').forEach(s => {
+  new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.nav-links a').forEach(a => {
+          a.style.color = a.getAttribute('href') === '#' + e.target.id ? 'var(--brand)' : '';
+        });
+      }
+    });
+  }, {threshold:.45}).observe(s);
+});
+</script>
+</body>
+</html>
