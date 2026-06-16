@@ -1,0 +1,6 @@
+{
+  "name": "Fluno Pitch Deck",
+  "description": "Interactive animated investor pitch deck and growth simulator for Fluno.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
